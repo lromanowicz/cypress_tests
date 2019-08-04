@@ -1,0 +1,23 @@
+{
+  "name": "cypress_tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:install": "./node_modules//.bin/cypress install",
+    "cy:open": "./node_modules/.bin/cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lromanowicz/cypress_tests.git"
+  },
+  "author": "lromanowicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lromanowicz/cypress_tests/issues"
+  },
+  "homepage": "https://github.com/lromanowicz/cypress_tests#readme",
+  "dependencies": {
+    "cypress": "^3.4.1"
+  }
+}
