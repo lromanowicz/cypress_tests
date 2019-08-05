@@ -41,8 +41,26 @@ Cypress.Commands.add('loginApi', (email, password) => {
 				email: email,
 				password: password
 			}
-		}
-	}).then(response => 
-		localStorage.setItem('jwt', response.body.user.token)
-	);
+		},
+		failOnStatusCode: false
+	}).then(response => {
+		localStorage.setItem('jwt', response.body.user.token);
+		localStorage.setItem('jiraBaseUrl', 'atlassian.net');
+		localStorage.setItem('captureCloudUrl', 'https://prod-capture.zephyr4jiracloud.com/capture')
+	});
+});
+
+Cypress.Commands.add('registerUserApi', (username, email, password) => {
+	cy.request({
+		url: `${Cypress.env('apiUrl')}/users`,
+		method: 'POST',
+		body: {
+			user: {
+				username: username,
+				email: email,
+				password: password
+			}
+		},
+		failOnStatusCode: false
+	});
 });

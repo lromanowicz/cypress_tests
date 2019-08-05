@@ -19,16 +19,17 @@ Cypress.Commands.add('createPostApi', (title, description, content, ...tags) => 
 		url: `${Cypress.env('apiUrl')}/articles`,
 		method: 'POST',
 		headers: {
-			authorization: `Token ${localStorage.getItem('jwt')}`
+			authorization: `Token ${localStorage.getItem('jwt')}`,
 		},
 		body: {
 			article: {
 				title: title,
 				description: description,
-				content: content,
-				tags: tags
+				body: content,
+				tagList: tags
 			}
-		}
+		},
+		failOnStatusCode: false
 	});
 });
 
@@ -43,7 +44,8 @@ Cypress.Commands.add('createComment', (postSlug, content) => {
 			comment: {
 				body: content
 			}
-		}
+		},
+		failOnStatusCode: false
 	});
 });
 
@@ -55,24 +57,22 @@ Cypress.Commands.add('getUserPosts', (username) => {
 			authorization: `Token ${localStorage.getItem('jwt')}`
 		}
 	});
-})
+});
 
 Cypress.Commands.add('deleteUserPosts', (username) => {
-	cy.request({
-		url: `${Cypress.env('apiUrl')}/articles?author=${username}`,
-		method: 'GET',
-		headers: {
-			authorization: `Token ${localStorage.getItem('jwt')}`
-		}
-	}).then(response => {
-		[...response.body.articles].forEach(article => 
-			cy.request({
-				method: 'DELETE',
-				headers: {
-					authorization: `Token ${localStorage.getItem('jwt')}`
-				},
-				url: `${Cypress.env('apiUrl')}/articles/${article.slug}`
-			})
-		);
-	});
+	cy
+		.getUserPosts(username)
+		.then(response => {
+			cy
+				.wrap(response.body.articles)
+				.each(article => 
+					cy.request({
+						method: 'DELETE',
+						headers: {
+							authorization: `Token ${localStorage.getItem('jwt')}`
+						},
+						url: `${Cypress.env('apiUrl')}/articles/${article.slug}`
+					})
+				);
+		});
 });

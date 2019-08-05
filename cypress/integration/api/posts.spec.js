@@ -1,4 +1,4 @@
-import { utc } from "moment";
+/// <reference types="Cypress" />
 
 describe('Post actions', function() {
 	beforeEach(function() {

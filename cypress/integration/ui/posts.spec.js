@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+
 import * as faker from 'faker';
 
 describe('Posts actions', function() {
@@ -9,20 +10,16 @@ describe('Posts actions', function() {
 	});
 
 	beforeEach(function () {
-		cy.server();
-		cy.route('/api/tags').as('login');
-		cy.login(this.user.email, this.user.password);
-		cy.wait('@login');
+		cy.loginApi(this.user.email, this.user.password);
 		cy.deleteUserPosts(this.user.username);
-		cy.createPost(
+		cy.createPostApi(
 			this.articleTitle,
 			faker.lorem.sentence(),
 			faker.lorem.words(),
 			faker.random.word()
-		);
-		cy
-			.get('h1')
-			.should('have.text', this.articleTitle);
+		).then(response => {
+			cy.visit(`article/${response.body.article.slug}`);
+		});
 	});
 
 	context('Managing posts', function() {
@@ -78,7 +75,7 @@ describe('Posts actions', function() {
 	});
 
 	context('Managing favourite posts', function() {
-		it('should be able to add post to favourites', function() {
+		it.only('should be able to add post to favourites', function() {
 			cy.visit('/');
 			cy
 				.contains('Global Feed')
@@ -88,7 +85,11 @@ describe('Posts actions', function() {
 				.first()
 				.click();
 			cy
+				.get('button')
+				.contains('1');
+			cy
 				.visit(`@${this.user.username}/favorites`);
+				cy.wait(5000);
 			cy
 				.get('div.article-preview h1')
 				.then(elements => {
