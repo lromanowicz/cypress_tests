@@ -45,8 +45,6 @@ Cypress.Commands.add('loginApi', (email, password) => {
 		failOnStatusCode: false
 	}).then(response => {
 		localStorage.setItem('jwt', response.body.user.token);
-		localStorage.setItem('jiraBaseUrl', 'atlassian.net');
-		localStorage.setItem('captureCloudUrl', 'https://prod-capture.zephyr4jiracloud.com/capture')
 	});
 });
 
