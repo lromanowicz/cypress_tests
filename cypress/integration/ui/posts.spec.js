@@ -75,13 +75,13 @@ describe('Posts actions', function() {
 	});
 
 	context('Managing favourite posts', function() {
-		it.only('should be able to add post to favourites', function() {
+		it('should be able to add post to favourites', function() {
 			cy.visit('/');
 			cy
 				.contains('Global Feed')
 				.click();
 			cy
-				.get('button > i')
+				.get('button > i', {timeout: 10000})
 				.first()
 				.click();
 			cy
@@ -89,7 +89,6 @@ describe('Posts actions', function() {
 				.contains('1');
 			cy
 				.visit(`@${this.user.username}/favorites`);
-				cy.wait(5000);
 			cy
 				.get('div.article-preview h1')
 				.then(elements => {

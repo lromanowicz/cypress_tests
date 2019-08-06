@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cy:install": "./node_modules//.bin/cypress install",
-    "cy:open": "./node_modules/.bin/cypress open"
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run": "./node_modules/.bin/cypress run"
   },
   "repository": {
     "type": "git",

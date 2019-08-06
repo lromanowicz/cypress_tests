@@ -15,7 +15,7 @@ describe('User authorization', () => {
 			});
 		});
 
-		it.only('should not register user without username', () => {
+		it('should not register user without username', () => {
 			cy.registerUserApi(
 				'',
 				faker.internet.email(),
